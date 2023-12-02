@@ -26,7 +26,7 @@ pipeline {
          stage('Build docker image') {
             steps {
 		    echo 'test'
-		sh 'docker build --tag ${DOCKER_IMAGE_MASTER} .'
+		sh 'docker build --tag ${DOCKER_IMAGE} .'
 		sh 'docker build --tag ${DOCKER_IMAGE_LATEST} .'
             }	 
         }
