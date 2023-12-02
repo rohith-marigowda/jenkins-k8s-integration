@@ -28,7 +28,7 @@ pipeline {
             }	 
         }
 	    
-        stage('docker image push to ECR') {
+        stage('docker image push') {
 	   steps {
         	sh 'docker login -u $docker_username -p $docker_password'
 		sh 'docker push ${DOCKER_IMAGE_MASTER}'
