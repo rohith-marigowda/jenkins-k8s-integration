@@ -12,6 +12,7 @@ pipeline {
         stage('Git checkout') {
             steps {
                 echo 'We are now checking out the git repository'
+		echo 'docker image is $DOCKER_IMAGE'
                 git 'https://github.com/rohith-marigowda/javaProject.git'
             }
         }
