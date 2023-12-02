@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: tomcat-with-k8s
-          image: 878226295837.dkr.ecr.ap-south-1.amazonaws.com/dockerassignment-cicd # Image that will be used to containers in the cluster
+          image: rohithmarigowda/assignment # Image that will be used to containers in the cluster
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080 # The port that the container is running on in the cluster
