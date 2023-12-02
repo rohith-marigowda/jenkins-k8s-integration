@@ -2,8 +2,11 @@ pipeline {
     agent any
     environment {
 	AWS_REGION = "ap-south-1"
+	BRANCHNAME = sh(script: 'echo $BRANCH_NAME | sed "s#/#-#"', returnStdout: true).trim()
+	GITCOMMIT = "${GIT_COMMIT[0..6]}"
+	AWS_REGION = "ap-south-1"
 	DOCKER_REPO_NAME = "rohithmarigowda/assignment"
-	DOCKER_IMAGE_MASTER = "$DOCKER_REPO_NAME:${BRANCH_NAME}"
+	DOCKER_IMAGE = "$DOCKER_REPO_NAME:${BRANCHNAME}-${GITCOMMIT}-${BUILD_NUMBER}"
 	DOCKER_IMAGE_LATEST = "$DOCKER_REPO_NAME:latest"
 }
     stages {
