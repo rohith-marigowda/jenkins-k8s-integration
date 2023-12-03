@@ -12,10 +12,12 @@ spec:
       labels:
         app: tomcat-with-k8s
     spec:
+      imagePullSecrets:
+        - name: my-docker-registry-secret
       containers:
         - name: tomcat-with-k8s
-          image: rohithmarigowda/assignment # Image that will be used to containers in the cluster
-          imagePullPolicy: IfNotPresent
+          image: rohithmarigowda/assignment:latest # Image that will be used to containers in the cluster
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080 # The port that the container is running on in the cluster
 
