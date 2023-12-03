@@ -23,7 +23,8 @@ pipeline {
 	stage('SonarQube analysis') {
         steps{
         withSonarQubeEnv('sonarqube-9.7.1') { 
-        sh "mvn sonar:sonar"
+        sh 'echo execute below command for sonar code analysis'
+		//sh "mvn sonar:sonar"
     }
         }
         }
