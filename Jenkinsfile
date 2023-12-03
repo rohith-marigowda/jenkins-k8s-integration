@@ -19,6 +19,14 @@ pipeline {
 		echo 'In this step run unit and integration tests'
 	    }
 	 }
+
+	stage('SonarQube analysis') {
+        steps{
+        withSonarQubeEnv('sonarqube-9.7.1') { 
+        sh "mvn sonar:sonar"
+    }
+        }
+        }
 	    
          stage('Build docker image') {
             steps {
