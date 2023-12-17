@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment # Kubernetes resource kind we are creating
+metadata:
+  name: jenkins-k8s-integration-assignment
+spec:
+  selector:
+    matchLabels:
+      app: tomcat-with-k8s
+  replicas: 2 # Number of replicas that will be created for this deployment
+  template:
+    metadata:
+      labels:
+        app: tomcat-with-k8s
+    spec:
+      imagePullSecrets:
+        - name: my-docker-registry-secret
+      containers:
+        - name: tomcat-with-k8s
+          image: rohithmarigowda/assignment:latest # Image that will be used to containers in the cluster
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080 # The port that the container is running on in the cluster
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tomcat-k8ssvc
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: tomcat-with-k8s
