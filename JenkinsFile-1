@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+    environment {
+	AWS_REGION = "ap-south-1"
+	DOCKER_REPO_NAME = "rohithmarigowda/assignment"
+	DOCKER_IMAGE_LATEST = "$DOCKER_REPO_NAME:latest"
+}
+    stages {
+        stage('Git checkout') {
+            steps {
+                echo 'We are now checking out the git repository'
+                gitCheckout('https://github.com/rohith-marigowda/jenkins-k8s-integration.git', 'master', 'github')
+            }
+        }
+
+	 stage('Run Unit and Integration tests'){
+  	    steps {
+		echo 'In this step run unit and integration tests'
+	    }
+	 }
+
+	stage('SonarQube analysis') {
+        steps{
+        withSonarQubeEnv('sonarqube-9.7.1') { 
+        sh 'echo execute below command for sonar code analysis'
+		//sh "mvn sonar:sonar"
+    }
+        }
+        }
+	    
+         stage('Build docker image') {
+            steps {
+		sh 'docker build --tag ${DOCKER_IMAGE_LATEST} .'
+            }	 
+        }
+	    
+        stage('docker image push') {
+	   steps {
+        	sh 'docker login -u $dockerUser -p $dockerPassword'
+		sh 'docker push ${DOCKER_IMAGE_LATEST}'
+    	}
+}
+	    stage('Deploy to k8s'){
+            steps{
+                script{
+					sh 'echo k8s deployment stage'
+                    //kubernetesDeploy (configs: 'deploymentservice.yaml',kubeconfigId: 'k8sconfigpwd')
+                }
+            }
+        }
+    }
+}
