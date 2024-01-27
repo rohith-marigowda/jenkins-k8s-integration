@@ -21,11 +21,9 @@ pipeline {
 	 }
 
 	stage('SonarQube analysis') {
-        steps{
-        withSonarQubeEnv('sonarqube-9.7.1') { 
-        sh 'echo execute below command for sonar code analysis'
+        steps{ 
+        	sh 'echo execute below command for sonar code analysis'
 		//sh "mvn sonar:sonar"
-    }
         }
         }
 	    
@@ -44,12 +42,12 @@ pipeline {
 		sh 'docker push ${DOCKER_IMAGE_LATEST}'
     	}
 }
-	    stage('Deploy to k8s'){
-            steps{
-                script{
-                    kubernetesDeploy (configs: 'deploymentservice.yaml',kubeconfigId: 'k8sconfigpwd')
-                }
-            }
-        }
+	    //stage('Deploy to k8s'){
+            //steps{
+                //script{
+                    //kubernetesDeploy (configs: 'deploymentservice.yaml',kubeconfigId: 'k8sconfigpwd')
+                //}
+            //}
+        //}
     }
 }
